@@ -2,6 +2,7 @@ import express from 'express';
 import pool from './src/db/db_connect.js';
 import multer from 'multer';
 import storage from './src/config/multer_config.js';
+import fileFilter from './src/config/file_filter.js';
 const app = express();
 
 app.use(express.urlencoded({extended : true}))
@@ -13,7 +14,11 @@ pool.getConnection((error,connnection)=>{
 });
 //initialize multer
 const upload = multer({
-    storage : storage
+    storage : storage,
+    fileFilter : fileFilter,
+    limits : {
+        fileSize : 1024 * 1024 // limit 1MB
+    }
 });
 
 
